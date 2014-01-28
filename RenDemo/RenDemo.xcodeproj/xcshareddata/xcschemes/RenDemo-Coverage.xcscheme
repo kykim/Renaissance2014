@@ -49,8 +49,8 @@
          <ExecutionAction
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
-               title = "Run Script"
-               scriptText = "OBJ_ARCH_PATH=${PROJECT_TEMP_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.build/Objects-normal/i386&#10;&#10;COV_PATH=${SRCROOT}/Coverage&#10;COV_INFO=${COV_PATH}/Coverage.info&#10;&#10;mkdir -p ${COV_PATH}&#10;/usr/local/bin/lcov --capture -b ${SRCROOT} -d ${OBJ_ARCH_PATH} -o ${COV_INFO}&#10;/usr/local/bin/lcov --remove ${COV_INFO} &quot;/Applications/Xcode.app/*&quot; -d ${OBJ_ARCH_PATH} -o ${COV_INFO}&#10;/usr/local/bin/lcov --remove ${COV_INFO} &quot;main.m&quot; -d ${OBJ_ARCH_PATH} -o ${COV_INFO}&#10;                       &#10;/usr/local/bin/genhtml --output-directory ${COV_PATH} ${COV_INFO}&#10;">
+               title = "Generate Coverage Script"
+               scriptText = "OBJ_ARCH_PATH=${PROJECT_TEMP_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.build/Objects-normal/i386&#10;&#10;if [ $USER = &quot;_teamsserver&quot; ]; then&#10;  COVERAGE_OBJ_DIR=$(mktemp -d -t Coverage)&#10;  mkdir -p ${COVERAGE_OBJ_DIR}&#10;  cp -r ${OBJ_ARCH_PATH}/* ${COVERAGE_OBJ_DIR}&#10;  OBJ_ARCH_PATH=${COVERAGE_OBJ_DIR}&#10;  COV_PATH=/Library/Server/Xcode/Data/Coverage/${PROJECT_NAME}/$(date +%Y%m%d%H%M%S)&#10;else&#10;  COV_PATH=${SRCROOT}/Coverage&#10;fi&#10;                       &#10;COV_INFO=${COV_PATH}/Coverage.info&#10;                       &#10;mkdir -p ${COV_PATH}&#10;/usr/local/bin/lcov --capture -b ${SRCROOT} -d ${OBJ_ARCH_PATH} -o ${COV_INFO}&#10;/usr/local/bin/lcov --remove ${COV_INFO} &quot;/Applications/Xcode.app/*&quot; -d ${OBJ_ARCH_PATH} -o ${COV_INFO}&#10;/usr/local/bin/lcov --remove ${COV_INFO} &quot;main.m&quot; -d ${OBJ_ARCH_PATH} -o ${COV_INFO}&#10;                       &#10;/usr/local/bin/genhtml --output-directory ${COV_PATH} ${COV_INFO}&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
